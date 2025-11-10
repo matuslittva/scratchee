@@ -2,14 +2,18 @@ struct Version: Sendable, Comparable {
     private let components: [Int]
     let rawValue: String
 
-    init(_ rawValue: String) {
+    nonisolated init(_ rawValue: String) {
         self.rawValue = rawValue
-        self.components = rawValue
+        components = rawValue
             .split(separator: ".")
             .compactMap { Int($0) }
     }
 
-    private func component(at index: Int) -> Int {
+    nonisolated static func ==(lhs: Version, rhs: Version) -> Bool {
+        lhs.components == rhs.components
+    }
+
+    nonisolated private func component(at index: Int) -> Int {
         index < components.count ? components[index] : 0
     }
 
