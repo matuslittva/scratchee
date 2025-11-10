@@ -3,7 +3,6 @@ import SwiftUI
 @MainActor
 struct RootFlow: View {
     enum Destination: Hashable {
-        case home
         case scratch
         case activate
     }

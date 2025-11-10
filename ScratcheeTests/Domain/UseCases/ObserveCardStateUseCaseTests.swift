@@ -19,13 +19,13 @@ final class ObserveCardStateUseCaseTests: XCTestCase {
 
         let _ = await sut.run()
 
-        await spy.setState(.scratching)
+        await spy.setState(.activated)
         let code = UUID()
         await spy.setState(.scratched(code: code))
 
         let states = await spy.receivedStates()
         XCTAssertEqual(states, [
-            .scratching,
+            .activated,
             .scratched(code: code)
         ])
     }

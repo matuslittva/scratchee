@@ -2,7 +2,6 @@ import Foundation
 
 enum CardState: Equatable, Sendable {
     case unscratched
-    case scratching
     case scratched(code: UUID)
     case activated
     case error(message: String)
@@ -10,7 +9,6 @@ enum CardState: Equatable, Sendable {
     nonisolated static func == (lhs: CardState, rhs: CardState) -> Bool {
         switch (lhs, rhs) {
         case (.unscratched, .unscratched),
-            (.scratching, .scratching),
             (.activated, .activated):
             return true
 

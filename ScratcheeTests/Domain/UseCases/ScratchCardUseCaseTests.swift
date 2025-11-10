@@ -2,53 +2,53 @@ import XCTest
 @testable import Scratchee
 
 final class ScratchCardUseCaseTests: XCTestCase {
-    func test_givenScratchStarts_whenRun_thenSetsScratchingAndScratched() async {
+    func test_givenScratchSucceeds_whenRun_thenSetsScratchedState() async {
         let cardsSpy = CardsRepositorySpy()
         let sut = makeSUT(cardsRepository: cardsSpy)
 
         await sut.run()
 
         let states = await cardsSpy.receivedStates()
-        XCTAssertEqual(states.count, 2)
+        XCTAssertEqual(states.count, 1)
 
-        XCTAssertEqual(states[0], .scratching)
-
-        if case .scratched(let code) = states[1] {
+        if case .scratched(let code) = states[0] {
             XCTAssertNotNil(code)
         } else {
             XCTFail("Expected .scratched(_)")
         }
     }
 
-    func test_givenTaskIsCancelled_whenRun_thenStopsAfterScratchingState() async {
+    func test_givenTaskIsCancelled_whenRun_thenDoesNotChangeState() async {
         let cardsSpy = CardsRepositorySpy()
+        await cardsSpy.configureScratch {
+            try await Task.sleep(for: .seconds(2))
+            return UUID()
+        }
         let sut = makeSUT(cardsRepository: cardsSpy)
-
+        
         let task = Task {
             await sut.run()
         }
 
         task.cancel()
-        await task.value
+        _ = await task.result
 
         let states = await cardsSpy.receivedStates()
-        XCTAssertEqual(states.count, 1)
-        XCTAssertEqual(states[0], .scratching)
+        XCTAssertEqual(states.count, 0)
     }
 
     func test_givenErrorOccurs_whenRun_thenSetsErrorState() async {
         let cardsSpy = CardsRepositorySpy()
-        let sut = makeSUT(cardsRepository: cardsSpy)
-
         await cardsSpy.configureScratch { throw TestError.fail }
+
+        let sut = makeSUT(cardsRepository: cardsSpy)
 
         await sut.run()
 
         let states = await cardsSpy.receivedStates()
-        XCTAssertEqual(states.count, 2)
-        XCTAssertEqual(states[0], .scratching)
+        XCTAssertEqual(states.count, 1)
 
-        if case .error(let message) = states[1] {
+        if case .error(let message) = states[0] {
             XCTAssertEqual(message, "Scratch failed")
         } else {
             XCTFail("Expected .error(message:)")
