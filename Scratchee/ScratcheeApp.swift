@@ -1,19 +1,18 @@
-//
-//  ScratcheeApp.swift
-//  Scratchee
-//
-//  Created by Matus Littva on 09.11.2025.
-//
-
+import Combine
 import SwiftUI
 
 @main
 struct ScratcheeApp: App {
+    @StateObject private var factoryHolder = FactoryHolder()
+
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                ContentView()
-            }
+            RootFlow(factory: factoryHolder.factory)
         }
     }
+}
+
+@MainActor
+final class FactoryHolder: ObservableObject {
+    let factory = AppFactory()
 }

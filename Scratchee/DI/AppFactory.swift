@@ -1,7 +1,12 @@
-//
-//  AppFactory.swift
-//  Scratchee
-//
-//  Created by Matus Littva on 09.11.2025.
-//
+@MainActor
+final class AppFactory {
+    let httpClient: HTTPClient
+    let versionRepository: VersionRepository
+    let cardsRepository: CardsRepository
 
+    init() {
+        self.httpClient = HTTPClientLive()
+        self.versionRepository = VersionRepositoryLive(client: httpClient)
+        self.cardsRepository = CardsRepositoryLive()
+    }
+}

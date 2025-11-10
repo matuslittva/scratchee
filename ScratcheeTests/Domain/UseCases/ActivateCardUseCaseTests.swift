@@ -8,7 +8,7 @@ final class ActivateCardUseCaseTests: XCTestCase {
         let versionSpy = VersionRepositorySpy { Version("6.24") }
         let sut = makeSUT(versionRepository: versionSpy, cardsRepository: cardsSpy)
 
-        await sut.run(code: code)
+        await sut.run()
 
         let states = await cardsSpy.receivedStates()
         XCTAssertEqual(versionSpy.callCount, 1)
@@ -21,7 +21,7 @@ final class ActivateCardUseCaseTests: XCTestCase {
         let versionSpy = VersionRepositorySpy { Version("5.9") }
         let sut = makeSUT(versionRepository: versionSpy, cardsRepository: cardsSpy)
 
-        await sut.run(code: code)
+        await sut.run()
 
         let states = await cardsSpy.receivedStates()
         XCTAssertEqual(versionSpy.callCount, 1)
@@ -34,7 +34,7 @@ final class ActivateCardUseCaseTests: XCTestCase {
         let versionSpy = VersionRepositorySpy { throw URLError(.badServerResponse) }
         let sut = makeSUT(versionRepository: versionSpy, cardsRepository: cardsSpy)
 
-        await sut.run(code: code)
+        await sut.run()
 
         let states = await cardsSpy.receivedStates()
         XCTAssertEqual(versionSpy.callCount, 1)
