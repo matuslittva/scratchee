@@ -16,7 +16,23 @@ struct RootFlow: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            Text("")
+            factory.makeHomeView(
+                onScratch: { path.append(.scratch) },
+                onActivate: { path.append(.activate) }
+            )
+            .navigationDestination(for: Destination.self) { destination in
+                switch destination {
+                case .scratch:
+                    Text("Scratch")
+//                    factory.makeScratchView {
+//                        path.removeLast()
+//                    }
+                case .activate:
+                    factory.makeActivationView {
+                        path.removeLast()
+                    }
+                }
+            }
         }
     }
 }
