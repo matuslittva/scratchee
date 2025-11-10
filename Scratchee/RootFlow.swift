@@ -23,10 +23,9 @@ struct RootFlow: View {
             .navigationDestination(for: Destination.self) { destination in
                 switch destination {
                 case .scratch:
-                    Text("Scratch")
-//                    factory.makeScratchView {
+                    factory.makeScratchView {
 //                        path.removeLast()
-//                    }
+                    }
                 case .activate:
                     factory.makeActivationView {
                         path.removeLast()

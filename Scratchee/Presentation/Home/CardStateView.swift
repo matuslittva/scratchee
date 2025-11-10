@@ -25,7 +25,7 @@ struct CardStateView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
 
-                Text("Code: \(code.uuidString.prefix(8))…")
+                Text("Code: \(code.uuidString)")
                     .font(.footnote)
                     .foregroundColor(.secondary)
 

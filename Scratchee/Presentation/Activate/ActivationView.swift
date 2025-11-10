@@ -15,6 +15,7 @@ struct ActivationView: View {
                     .progressViewStyle(.circular)
                     .scaleEffect(1.4)
             }
+            Spacer()
 
             Button(
                 action: {

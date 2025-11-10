@@ -35,11 +35,12 @@ struct HomeView: View {
                         Text("Activate")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(viewModel.canActivate ? Color.blue : Color.gray)
                             .foregroundColor(.white)
                             .cornerRadius(12)
                             .font(.headline)
                     }
+                    .disabled(!viewModel.canActivate)
                 }
 
                 Spacer().frame(height: 40)

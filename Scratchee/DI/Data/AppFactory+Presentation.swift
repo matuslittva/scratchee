@@ -20,4 +20,13 @@ extension AppFactory {
             )
         )
     }
+
+    func makeScratchView(onClose: @escaping () -> Void) -> ScratchView {
+        ScratchView(
+            viewModel: ScratchViewModel(
+                scratchUseCase: self.scratchCardUseCase,
+                onClose: onClose
+            )
+        )
+    }
 }

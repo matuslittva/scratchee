@@ -4,9 +4,13 @@ import Foundation
 @MainActor
 final class HomeViewModel: ObservableObject {
     @Published var cardState: CardState = .unscratched
-    var isActivatable: Bool {
-        if case .scratched = cardState { return true }
-        return false
+    var canActivate: Bool {
+        switch cardState {
+        case .activated, .unscratched:
+            false
+        case .scratched, .error:
+            true
+        }
     }
 
     private let observeCardState: ObserveCardStateUseCase
